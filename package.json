@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/danielbf92/task_Daniel_MicronAgritech#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "promise-mysql": "^5.2.0"
