@@ -69,14 +69,19 @@ const addUser = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, 8);
         //to add a user we must have the mail and password. Here we will validate
         if (email === undefined || password === undefined){
-            res.status(400).json({message: "Bad Request, The email and password are required."})
+            res.status(400).json({message: "Bad Request, The email and password are required."});
+        //validation where the user must not exist to be added
+        } else if (email != email){
+            const add_users = {id, email, password:passwordHash, name, surname};
+            //mysql connection
+            const connection = await getConnection();
+            //query necessary to add users.
+            await connection.query("INSERT INTO users SET ?", add_users);
+            res.json({message: "User added"});
+        } else {
+            res.status(400).json({message: "Bad Request, The user already exists."});
         }
-        const add_users = {id, email, password:passwordHash, name, surname};
-        //mysql connection
-        const connection = await getConnection();
-        //query necessary to add users.
-        await connection.query("INSERT INTO users SET ?", add_users);
-        res.json({message: "User added"});
+        
 
     }catch(error){
         res.status(500);
@@ -99,7 +104,7 @@ const updateUser = async (req, res) => {
         const connection = await getConnection();
         //query necessary to update users.
         await connection.query("UPDATE users SET ? WHERE id = ?", [update_users, id]);
-        res.json({message: "User added"});
+        res.json({message: "User updated"});
 
     }catch(error){
         res.status(500);
