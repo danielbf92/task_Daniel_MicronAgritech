@@ -45,16 +45,20 @@ const userLogin = async (req, res) => {
         //query necessary to obtain the users (login).
         const result = await connection.query("SELECT id, email, password, name, surname FROM users WHERE email = ?", email);
         //compare the passwords, and we will validate that both are the same (encrypted and the original password)
-        bcrypt.compare(password, result[0]['password'], (err, data) => {
-            //if error than throw error
-            if (err) throw err
-            //if both match than you can do anything
-            if (data) {
-                return res.status(200).json({ msg: "Login success" })
-            } else {
-                return res.status(401).json({ msg: "Invalid credencial" })
-            }
-        })
+        if (result.length != 0){
+            bcrypt.compare(password, result[0]['password'], (err, data) => {
+                //if error than throw error
+                if (err) throw err
+                //if both match than you can do anything
+                if (data) {
+                    return res.status(200).json({ msg: "Login success" })
+                } else {
+                    return res.status(401).json({ msg: "Invalid credencial" })
+                }
+            })
+        }else{
+            res.status(400).json({message: "Bad Request, this email doesn't exist..."})
+        }
     }catch(error){
         res.status(500);
         res.send(error.message);
@@ -84,7 +88,7 @@ const addUser = async (req, res) => {
         } else {
             res.status(400).json({message: "Bad Request, The user already exists."});
         }
-        
+
     }catch(error){
         res.status(500);
         res.send(error.message);
