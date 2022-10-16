@@ -67,14 +67,17 @@ const addUser = async (req, res) => {
         const {id, email, password, name, surname} = req.body;
         //encrypt the original password.
         const passwordHash = await bcrypt.hash(password, 8);
+        //mysql connection
+        const connection = await getConnection();
+        //validation where the user must not exist to be added
+        const user_name = await connection.query("SELECT * FROM users WHERE email = ?", email);
+        console.log("Result email: ",user_name)
         //to add a user we must have the mail and password. Here we will validate
         if (email === undefined || password === undefined){
             res.status(400).json({message: "Bad Request, The email and password are required."});
-        //validation where the user must not exist to be added
-        } else if (email != email){
+        }
+        else if (user_name.length === 0){
             const add_users = {id, email, password:passwordHash, name, surname};
-            //mysql connection
-            const connection = await getConnection();
             //query necessary to add users.
             await connection.query("INSERT INTO users SET ?", add_users);
             res.json({message: "User added"});
@@ -82,7 +85,6 @@ const addUser = async (req, res) => {
             res.status(400).json({message: "Bad Request, The user already exists."});
         }
         
-
     }catch(error){
         res.status(500);
         res.send(error.message);
