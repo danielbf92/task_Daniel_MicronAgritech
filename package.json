@@ -20,16 +20,16 @@
   "homepage": "https://github.com/danielbf92/task_Daniel_MicronAgritech#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.1",
+    "dotenv": "^16.0.3", "//":"manage environment variables (credentials to the database)",
+    "express": "^4.18.1", "//":"create web servers using javascript and nodejs",
     "promise-mysql": "^5.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.19.3",
+    "@babel/cli": "^7.19.3", "//":"allows to convert modern JS code to a standard of most browsers",
     "@babel/core": "^7.19.3",
     "@babel/node": "^7.19.1",
     "@babel/preset-env": "^7.19.3",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.20"
+    "morgan": "^1.10.0", "//":"see in the console the requests that we are making GET POST DELETE etc.",
+    "nodemon": "^2.0.20", "//":"changes are reflected automatically without having to restart the server"
   }
 }

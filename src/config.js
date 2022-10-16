@@ -1,5 +1,7 @@
 import { config } from "dotenv";
 
+//constastes in environment variables more secure level.
+
 config();
 
 export default {
