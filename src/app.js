@@ -9,7 +9,7 @@ const app=express();
 //settings
 app.set('port', 4000);
 
-//Middlewares
+//Middlewares : small intermediate functions between a request and a response
 app.use(morgan('dev'));
 app.use(express.json());
 
