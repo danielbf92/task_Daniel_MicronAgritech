@@ -25,7 +25,11 @@ const getUser = async (req, res) => {
         const connection = await getConnection();
         //query necessary to obtain specific user.
         const result = await connection.query("SELECT id, email, password, name, surname FROM users WHERE id = ?", id);
-        res.json(result);
+        if (result.length != 0){
+            res.json(result);
+        } else {
+            res.status(400).json({message: "Bad Request, this user doesn't exist in our database..."})
+        }
 
     }catch(error){
         res.status(500);
